@@ -42,16 +42,13 @@ module {
             let low  = Nat32.fromNat(Nat64.toNat(now & 0xFFFFFFFF));
             let mid  = Nat16.fromNat(Nat64.toNat((now >> 32) & 0xFFFF));
             let high = Nat16.fromNat(Nat64.toNat((now >> 48) & 0x0FFF)) | 0x1000;
-            Array.append(
-                Array.append(
-                    Binary.BigEndian.fromNat32(low),
-                    Binary.BigEndian.fromNat16(mid),
-                ),
-                Array.append(
-                    Binary.BigEndian.fromNat16(high),
-                    Binary.BigEndian.fromNat64(now),
-                ),
-            );
+            append<Nat8>([
+                Binary.BigEndian.fromNat32(low),
+                Binary.BigEndian.fromNat16(mid),
+                Binary.BigEndian.fromNat16(high),
+                Binary.BigEndian.fromNat16(clock),
+                Array.freeze(Array.init<Nat8>(6, 0x00)),
+            ]);
         };
 
         private func time() : (Nat64, Nat16) {
@@ -66,5 +63,13 @@ module {
             lastTime := now;
             (t, clockSequence);
         };
+
+        private func append<A>(xs : [[A]]) : [A] {
+            var ys : [A] = [];
+            for (v in xs.vals()) {
+                ys := Array.append(ys, v);
+            };
+            ys;
+        }
     };
 };
