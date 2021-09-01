@@ -12,4 +12,6 @@ jobs:
           dfx-version: 0.8.0
           install-moc: true
           vessel-version: 0.6.2
-      - run: for i in test/*.mo ; do moc $(vessel sources) -r $i ; done
+      - run: |
+          cd test
+          for i in *.mo ; do moc $(vessel sources) -r $i ; done

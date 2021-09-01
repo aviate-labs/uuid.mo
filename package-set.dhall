@@ -6,6 +6,16 @@ let additions = [
   , repo = "https://github.com/aviate-labs/encoding.mo"
   , version = "v0.2.0"
   , dependencies = ["base"]
+  },
+  { name = "io"
+  , repo = "https://github.com/aviate-labs/io.mo"
+  , version = "v0.2.0"
+  , dependencies = ["base"]
+  },
+  { name = "rand"
+  , repo = "https://github.com/aviate-labs/rand.mo"
+  , version = "v0.1.0"
+  , dependencies = ["base", "io"]
   }
 ] : List Package
 

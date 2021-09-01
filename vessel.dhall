@@ -1,4 +1,4 @@
 {
-  dependencies = [ "base", "encoding" ],
+  dependencies = [ "base", "encoding", "io" ],
   compiler = None Text
 }

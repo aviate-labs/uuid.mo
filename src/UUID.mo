@@ -1,13 +1,14 @@
 import Array "mo:base/Array";
+import Binary "mo:encoding/Binary";
+import Hex "mo:encoding/Hex";
 import Int "mo:base/Int";
+import IO "mo:io/IO";
 import List "mo:base/List";
+import Nat8 "mo:base/Nat8";
 import Nat16 "mo:base/Nat16";
 import Nat32 "mo:base/Nat32";
 import Nat64 "mo:base/Nat64";
 import Time "mo:base/Time";
-
-import Hex "mo:encoding/Hex";
-import Binary "mo:encoding/Binary";
 
 module {    
     public type UUID = [Nat8];
@@ -26,7 +27,12 @@ module {
         t # Hex.encode(List.toArray(p3)) # "-" # Hex.encode(List.toArray(xs3));
     };
     
-    public class Generator() {
+    public class Generator(
+        rand : IO.Reader<Nat8>,
+        node : [Nat8],
+    ) {
+        if (node.size() != 6) assert(false);
+
         private let lillian    : Nat64 = 2299160;          // Julian day of 15 Oct 1582.
         private let unix       : Nat64 = 2440587;          // Julian day of 1 Jan 1970.
         private let epoch      : Nat64 = unix - lillian;   // Days between epochs.
@@ -47,14 +53,14 @@ module {
                 Binary.BigEndian.fromNat16(mid),
                 Binary.BigEndian.fromNat16(high),
                 Binary.BigEndian.fromNat16(clock),
-                Array.freeze(Array.init<Nat8>(6, 0x00)),
+                node,
             ]);
         };
 
         private func time() : (Nat64, Nat16) {
             let t = Nat64.fromNat(Int.abs(Time.now()));
             if (clockSequence == 0) {
-                // TODO: Randomize clock sequence.
+                setClockSequence(null);
             };
             let now = t/100 + g1582ns100;
             if (now <= lastTime) {
@@ -64,12 +70,32 @@ module {
             (t, clockSequence);
         };
 
+        // Sets the clock sequence to the lower 14 bits of seq, null generates a new clock sequence.
+        public func setClockSequence(seq : ?Nat16) {
+            var s : Nat16 = switch (seq) {
+                case (null) {
+                    let (bs, err) = rand.read(2);
+                    nat8to16(bs[0]) << 8 | nat8to16(bs[1]);
+                };
+                case (? s) { s; };
+            };
+            let oldSequence = clockSequence;
+            clockSequence := s & 0x3FFF | 0x8000;
+            if (oldSequence != clockSequence) {
+                lastTime := 0;
+            };
+        };
+
         private func append<A>(xs : [[A]]) : [A] {
             var ys : [A] = [];
             for (v in xs.vals()) {
                 ys := Array.append(ys, v);
             };
             ys;
-        }
+        };
+
+        private func nat8to16(n : Nat8) : Nat16 {
+            Nat16.fromNat(Nat8.toNat(n));
+        };
     };
 };
