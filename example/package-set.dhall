@@ -11,5 +11,10 @@ let additions = [
   , version = "v0.3.0"
   , dependencies = [ "base" ]
   },
+  { name = "rand"
+  , repo = "https://github.com/aviate-labs/rand.mo"
+  , version = "v0.2.1"
+  , dependencies = [ "base" ]
+  },
 ] : List Package
 in  upstream # additions
