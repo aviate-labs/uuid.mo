@@ -1,11 +1,8 @@
-let upstream = https://github.com/aviate-labs/package-set/releases/download/v0.1.2/package-set.dhall sha256:770d9d2bd9752457319e8018fdcef2813073e76e0637b1f37a7f761e36e1dbc2
+let upstream = https://github.com/dfinity/vessel-package-set/releases/download/mo-0.6.7-20210818/package-set.dhall sha256:c4bd3b9ffaf6b48d21841545306d9f69b57e79ce3b1ac5e1f63b068ca4f89957
+let aviate-labs = https://github.com/aviate-labs/package-set/releases/download/v0.1.3/package-set.dhall sha256:ca68dad1e4a68319d44c587f505176963615d533b8ac98bdb534f37d1d6a5b47
+
 let Package = { name : Text, version : Text, repo : Text, dependencies : List Text }
 let additions = [
-  { name = "array"
-  , repo = "https://github.com/aviate-labs/array.mo"
-  , version = "v0.2.0"
-  , dependencies = [ "base" ]
-  },
   { name = "io"
   , repo = "https://github.com/aviate-labs/io.mo"
   , version = "v0.3.0"
@@ -16,5 +13,11 @@ let additions = [
   , version = "v0.2.1"
   , dependencies = [ "base" ]
   },
+  { name = "uuid"
+  , version = "88871a6e1801c61ba54d42966f08be0604bb2a2d"
+  , repo = "https://github.com/aviate-labs/uuid.mo"
+  , dependencies = [ "base", "encoding", "io" ]
+  },
 ] : List Package
-in  upstream # additions
+
+in  upstream # aviate-labs # additions

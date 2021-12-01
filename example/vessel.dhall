@@ -1,4 +1,4 @@
 {
-  dependencies = [ "array", "base", "encoding", "io", "rand" ],
+  dependencies = [ "base", "rand", "uuid" ],
   compiler = Some "0.6.11"
 }

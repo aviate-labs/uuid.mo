@@ -1,7 +1,7 @@
 {
     "canisters": {
         "uuid": {
-            "main": "main.mo",
+            "main": "src/example/main.mo",
             "type": "motoko"
         }
     },

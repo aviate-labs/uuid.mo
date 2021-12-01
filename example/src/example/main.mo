@@ -1,9 +1,8 @@
 import Debug "mo:base/Debug";
+import UUID "mo:uuid/UUID";
+import Source "mo:uuid/Source";
+import AsyncSource "mo:uuid/async/SourceV4";
 import XorShift "mo:rand/XorShift";
-
-import UUID "../src/UUID";
-import Source "../src/Source";
-import AsyncSource "../src/async/SourceV4";
 
 actor {
 	private let ae = AsyncSource.Source();
