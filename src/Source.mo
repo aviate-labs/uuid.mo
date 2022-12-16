@@ -1,12 +1,12 @@
-import Array "mo:base/Array";
+import Array "mo:base-0.7.3/Array";
 import Binary "mo:encoding/Binary";
-import Int "mo:base/Int";
+import Int "mo:base-0.7.3/Int";
 import IO "mo:io/IO";
-import Nat8 "mo:base/Nat8";
-import Nat16 "mo:base/Nat16";
-import Nat32 "mo:base/Nat32";
-import Nat64 "mo:base/Nat64";
-import Time "mo:base/Time";
+import Nat8 "mo:base-0.7.3/Nat8";
+import Nat16 "mo:base-0.7.3/Nat16";
+import Nat32 "mo:base-0.7.3/Nat32";
+import Nat64 "mo:base-0.7.3/Nat64";
+import Time "mo:base-0.7.3/Time";
 
 import UUID "UUID";
 

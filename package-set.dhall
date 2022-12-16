@@ -1,10 +1,22 @@
-let upstream = https://github.com/aviate-labs/package-set/releases/download/v0.1.2/package-set.dhall sha256:770d9d2bd9752457319e8018fdcef2813073e76e0637b1f37a7f761e36e1dbc2
+let base = https://github.com/internet-computer/base-package-set/releases/download/moc-0.7.4/package-set.dhall sha256:3a20693fc597b96a8c7cf8645fda7a3534d13e5fbda28c00d01f0b7641efe494
 let Package = { name : Text, version : Text, repo : Text, dependencies : List Text }
+
 let additions = [
-  { name = "io"
-  , repo = "https://github.com/aviate-labs/io.mo"
-  , version = "v0.3.0"
-  , dependencies = [ "base" ]
+  { name = "array"
+  , version = "v0.2.1"
+  , repo = "https://github.com/aviate-labs/array.mo"
+  , dependencies = [ "base-0.7.3" ] : List Text
   },
+  { name = "encoding"
+  , version = "v0.4.1"
+  , repo = "https://github.com/aviate-labs/encoding.mo"
+  , dependencies = [ "base-0.7.3", "array" ]
+  },
+  { name = "io"
+  , version = "v0.3.2"
+  , repo = "https://github.com/aviate-labs/io.mo"
+  , dependencies = [ "base-0.7.3" ]
+  }
 ] : List Package
-in  upstream # additions
+
+in  base # additions

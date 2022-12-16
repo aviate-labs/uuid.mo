@@ -1,5 +1,5 @@
 import Hex "mo:encoding/Hex";
-import List "mo:base/List";
+import List "mo:base-0.7.3/List";
 
 module {
 	// A UUID is a 128 bit (16 byte) Universal Unique IDentifier as defined in RFC 4122.
